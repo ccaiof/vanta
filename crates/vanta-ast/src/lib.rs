@@ -16,5 +16,8 @@ pub use types::*;
 pub mod visibility;
 pub use visibility::*;
 
+pub mod mutability;
+pub use mutability::*;
+
 pub mod expr;
 pub use expr::*;

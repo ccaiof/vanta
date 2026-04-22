@@ -15,3 +15,6 @@ pub enum Expr {
     PropertyAccess(PropertyAccess),
     Assignment(Assignment),
 }
+
+#[cfg(test)]
+mod tests;

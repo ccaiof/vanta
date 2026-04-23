@@ -31,6 +31,7 @@ impl Parser {
         };
 
         self.expect(TokenKind::LBrace)?;
+        let body = self.parse_body()?;
         self.expect(TokenKind::RBrace)?;
 
         Ok(vanta_ast::FunctionDecl {
@@ -38,7 +39,7 @@ impl Parser {
             name,
             params,
             return_type,
-            body: vec![],
+            body,
         })
     }
 
@@ -64,5 +65,68 @@ impl Parser {
         }
 
         Ok(params)
+    }
+
+    fn parse_body(&mut self) -> Result<Vec<vanta_ast::Expr>, Diagnostic> {
+        let mut exprs = Vec::new();
+
+        while !self.check(&TokenKind::RBrace) {
+            exprs.push(self.parse_expression()?);
+        }
+
+        Ok(exprs)
+    }
+
+    fn parse_expression(&mut self) -> Result<vanta_ast::Expr, Diagnostic> {
+        let mut expr = self.parse_primary()?;
+
+        // property access: user.email
+        while self.check(&TokenKind::Dot) {
+            self.advance();
+            let property = self.expect_identifier()?;
+
+            expr = vanta_ast::Expr::PropertyAccess(vanta_ast::PropertyAccess {
+                object: Box::new(expr),
+                property,
+            });
+        }
+
+        // assignment: user.email = "abc"
+        if self.check(&TokenKind::Equal) {
+            self.advance();
+            let value = self.parse_expression()?;
+
+            expr = vanta_ast::Expr::Assignment(vanta_ast::Assignment {
+                target: Box::new(expr),
+                value: Box::new(value),
+            });
+        }
+
+        Ok(expr)
+    }
+
+    fn parse_primary(&mut self) -> Result<vanta_ast::Expr, Diagnostic> {
+        let token = self.peek().ok_or(Diagnostic::UnexpectedEof)?;
+
+        match &token.kind {
+            TokenKind::StringLiteral(value) => {
+                let value = value.clone();
+                self.advance();
+
+                Ok(vanta_ast::Expr::StringLiteral(vanta_ast::StringLiteral {
+                    value,
+                }))
+            }
+            TokenKind::Identifier(name) => {
+                let name = name.clone();
+                self.advance();
+
+                Ok(vanta_ast::Expr::Identifier(vanta_ast::Identifier { name }))
+            }
+            other => Err(Diagnostic::UnexpectedToken {
+                expected: "expression".to_string(),
+                found: format!("{other:?}"),
+            }),
+        }
     }
 }

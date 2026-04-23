@@ -137,3 +137,49 @@ fn should_parse_method_with_parameter() {
     assert_eq!(method.params[0].ty, vanta_ast::Type::String);
     assert_eq!(method.return_type, Some(vanta_ast::Type::Void));
 }
+
+#[test]
+fn should_parse_method_body_with_assignment() {
+    let tokens = lex(r#"
+        class User() {
+            pub function test(): Void {
+                user.email = "abc"
+            }
+        }
+        "#)
+    .unwrap();
+
+    let mut parser = Parser::new(tokens);
+    let program = parser.parse_program().unwrap();
+
+    let method = &program.classes[0].methods[0];
+
+    assert_eq!(method.body.len(), 1);
+
+    match &method.body[0] {
+        vanta_ast::Expr::Assignment(_) => {}
+        _ => panic!("expected assignment expression"),
+    }
+}
+
+#[test]
+fn should_parse_property_access() {
+    let tokens = lex(r#"
+        class User() {
+            pub function test(): Void {
+                user.email
+            }
+        }
+        "#)
+    .unwrap();
+
+    let mut parser = Parser::new(tokens);
+    let program = parser.parse_program().unwrap();
+
+    let expr = &program.classes[0].methods[0].body[0];
+
+    match expr {
+        vanta_ast::Expr::PropertyAccess(_) => {}
+        _ => panic!("expected property access"),
+    }
+}

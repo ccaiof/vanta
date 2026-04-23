@@ -8,3 +8,5 @@ vanta-lexer = { path = "../vanta-lexer" }
 vanta-parser = { path = "../vanta-parser" }
 vanta-sema = { path = "../vanta-sema" }
 vanta-lowering = { path = "../vanta-lowering" }
+vanta-codegen-llvm = { path = "../vanta-codegen-llvm" }
+inkwell = { version = "0.9.0", features = ["llvm22-1"] }

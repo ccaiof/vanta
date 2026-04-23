@@ -12,6 +12,8 @@ impl<'ctx> LlvmCodegen<'ctx> {
             self.codegen_function(function)?;
         }
 
+        self.codegen_native_entrypoint(ir_module)?;
+
         Ok(())
     }
 
@@ -28,5 +30,49 @@ impl<'ctx> LlvmCodegen<'ctx> {
             .fn_type(&[BasicMetadataTypeEnum::from(ptr_type)], true);
 
         self.module.add_function("printf", printf_type, None);
+    }
+
+    fn codegen_native_entrypoint(&self, ir_module: &IrModule) -> Result<(), Diagnostic> {
+        let has_app_main = ir_module
+            .functions
+            .iter()
+            .any(|function| function.name == "App.main");
+
+        if !has_app_main {
+            return Ok(());
+        }
+
+        if self.module.get_function("main").is_some() {
+            return Ok(());
+        }
+
+        let app_main =
+            self.module
+                .get_function("App.main")
+                .ok_or_else(|| Diagnostic::InvalidSyntax {
+                    message: "LLVM function 'App.main' was not generated".to_string(),
+                })?;
+
+        let main_type = self.context.i32_type().fn_type(&[], false);
+        let main_fn = self.module.add_function("main", main_type, None);
+        let entry = self.context.append_basic_block(main_fn, "entry");
+
+        self.builder.position_at_end(entry);
+
+        self.builder
+            .build_call(app_main, &[], "call_app_main")
+            .map_err(|err| Diagnostic::InvalidSyntax {
+                message: format!("failed to build call to App.main: {err}"),
+            })?;
+
+        let zero = self.context.i32_type().const_int(0, false);
+
+        self.builder
+            .build_return(Some(&zero))
+            .map_err(|err| Diagnostic::InvalidSyntax {
+                message: format!("failed to build native main return: {err}"),
+            })?;
+
+        Ok(())
     }
 }

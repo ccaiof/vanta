@@ -161,6 +161,8 @@ version = "0.1.0"
 name = "vanta-cli"
 version = "0.1.0"
 dependencies = [
+ "inkwell",
+ "vanta-codegen-llvm",
  "vanta-lexer",
  "vanta-lowering",
  "vanta-parser",

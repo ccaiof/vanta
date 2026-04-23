@@ -8,6 +8,7 @@ pub enum Instruction {
         args: Vec<IrValue>,
     },
     LoadField {
+        dest: String,
         object: String,
         field: String,
     },

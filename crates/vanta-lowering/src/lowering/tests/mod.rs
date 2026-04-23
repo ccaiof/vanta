@@ -1,0 +1,4 @@
+mod assignment_lowering_tests;
+mod call_lowering_tests;
+mod property_access_lowering_tests;
+mod return_lowering_tests;

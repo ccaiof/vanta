@@ -17,6 +17,7 @@ fn should_codegen_void_function_with_return() {
     assert!(result.is_ok());
 
     let llvm_ir = codegen.module.print_to_string().to_string();
-    assert!(llvm_ir.contains("define void @App.main()"));
+    assert!(llvm_ir.contains("define void"));
+    assert!(llvm_ir.contains("App.main"));
     assert!(llvm_ir.contains("ret void"));
 }

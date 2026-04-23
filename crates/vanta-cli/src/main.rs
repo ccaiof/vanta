@@ -3,7 +3,7 @@ use std::fs;
 
 use vanta_lexer::lex;
 use vanta_parser::Parser;
-use vanta_sema::{check_entrypoint, check_returns};
+use vanta_sema::{check_entrypoint, check_return_types, check_returns};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -23,6 +23,7 @@ fn main() {
 
     check_entrypoint(&program).expect("semantic error");
     check_returns(&program).expect("semantic error: invalid return usage");
+    check_return_types(&program).expect("semantic error: invalid return type");
 
     println!("{:#?}", program);
 }

@@ -1,13 +1,17 @@
 use vanta_ast::{Expr, Program, Type};
 use vanta_diagnostics::Diagnostic;
 
-use crate::infer_expr_type;
+use crate::{TypeContext, infer_expr_type};
 
 pub fn check_return_types(program: &Program) -> Result<(), Diagnostic> {
     for class in &program.classes {
         for method in &class.methods {
             let Some(return_type) = method.return_type.as_ref() else {
                 continue;
+            };
+
+            let context = TypeContext {
+                params: &method.params,
             };
 
             for expr in &method.body {
@@ -33,7 +37,7 @@ pub fn check_return_types(program: &Program) -> Result<(), Diagnostic> {
                                 });
                             };
 
-                            let inferred_type = infer_expr_type(value)?;
+                            let inferred_type = infer_expr_type(value, &context)?;
 
                             if &inferred_type != expected_type {
                                 return Err(Diagnostic::InvalidSyntax {

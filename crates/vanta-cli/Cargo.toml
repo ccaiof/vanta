@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 vanta-parser = { path = "../vanta-parser" }
 vanta-lexer = { path = "../vanta-lexer" }
+vanta-sema = { path = "../vanta-sema" }

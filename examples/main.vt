@@ -1,6 +1,0 @@
-class App() {
-    pub function main(): Void {
-        print("Hello, Vanta")
-        return
-    }
-}

@@ -2,6 +2,6 @@ pack main
 
 class App() {
     pub function main(): Void {
-        print("oi, vida!")
+        print("Hello, Vanta!")
     }
 }

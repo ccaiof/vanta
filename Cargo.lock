@@ -82,11 +82,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "vanta-ir"
+version = "0.1.0"
+
+[[package]]
 name = "vanta-lexer"
 version = "0.1.0"
 dependencies = [
  "vanta-diagnostics",
 ]
+
+[[package]]
+name = "vanta-lowering"
+version = "0.1.0"
 
 [[package]]
 name = "vanta-parser"

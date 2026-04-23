@@ -7,6 +7,8 @@ members = [
     "crates/vanta-diagnostics",
     "crates/vanta-sema",
     "crates/vanta-codegen-llvm",
+    "crates/vanta-ir",
+    "crates/vanta-lowering",
 ]
 resolver = "3"
 

@@ -44,3 +44,17 @@ fn should_lex_return_keyword() {
     assert_eq!(tokens[0].kind, TokenKind::Return);
     assert_eq!(tokens[1].kind, TokenKind::Eof);
 }
+
+#[test]
+fn should_lex_function_call_tokens() {
+    let tokens = lex(r#"print("Hello")"#).unwrap();
+
+    assert_eq!(tokens[0].kind, TokenKind::Identifier("print".to_string()));
+    assert_eq!(tokens[1].kind, TokenKind::LParen);
+    assert_eq!(
+        tokens[2].kind,
+        TokenKind::StringLiteral("Hello".to_string())
+    );
+    assert_eq!(tokens[3].kind, TokenKind::RParen);
+    assert_eq!(tokens[4].kind, TokenKind::Eof);
+}

@@ -135,6 +135,17 @@ impl Parser {
                 let name = name.clone();
                 self.advance();
 
+                if self.check(&TokenKind::LParen) {
+                    self.advance();
+                    let args = self.parse_arguments()?;
+                    self.expect(TokenKind::RParen)?;
+
+                    return Ok(vanta_ast::Expr::Call(vanta_ast::Call {
+                        callee: name,
+                        args,
+                    }));
+                }
+
                 Ok(vanta_ast::Expr::Identifier(vanta_ast::Identifier { name }))
             }
             other => Err(Diagnostic::UnexpectedToken {
@@ -142,5 +153,25 @@ impl Parser {
                 found: format!("{other:?}"),
             }),
         }
+    }
+
+    fn parse_arguments(&mut self) -> Result<Vec<vanta_ast::Expr>, Diagnostic> {
+        let mut args = Vec::new();
+
+        while !self.check(&TokenKind::RParen) {
+            args.push(self.parse_expression()?);
+
+            if self.check(&TokenKind::Comma) {
+                self.advance();
+
+                if self.check(&TokenKind::RParen) {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+
+        Ok(args)
     }
 }

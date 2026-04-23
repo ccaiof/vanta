@@ -1,5 +1,6 @@
-use super::*;
 use vanta_ast::{ClassDecl, FunctionDecl, Program, Type, Visibility};
+
+use crate::check_entrypoint;
 
 #[test]
 fn should_accept_valid_app_main_entrypoint() {

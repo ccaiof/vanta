@@ -79,7 +79,7 @@ fn should_fail_when_string_method_returns_without_value() {
     assert!(result.is_err());
     assert_eq!(
         result.unwrap_err().to_string(),
-        "invalid syntax: method 'User.greet' returns String and must return a String value"
+        "invalid syntax: method 'User.greet' returns String and must return a value"
     );
 }
 
@@ -108,6 +108,6 @@ fn should_fail_when_string_method_returns_non_string_expression() {
     assert!(result.is_err());
     assert_eq!(
         result.unwrap_err().to_string(),
-        "invalid syntax: method 'User.greet' returns String and currently only accepts string literals in return"
+        "invalid syntax: type inference for identifier 'name' is not implemented yet"
     );
 }

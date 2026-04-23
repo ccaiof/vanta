@@ -1,6 +1,8 @@
 use vanta_ast::{Expr, Param, Type};
 use vanta_diagnostics::Diagnostic;
 
+use crate::infer_builtin_call_type;
+
 pub struct TypeContext<'a> {
     pub params: &'a [Param],
 }
@@ -32,12 +34,7 @@ pub fn infer_expr_type(expr: &Expr, context: &TypeContext) -> Result<Type, Diagn
             message: "type inference for assignment is not implemented yet".to_string(),
         }),
 
-        Expr::Call(call) => Err(Diagnostic::InvalidSyntax {
-            message: format!(
-                "type inference for call '{}' is not implemented yet",
-                call.callee
-            ),
-        }),
+        Expr::Call(call) => infer_builtin_call_type(call),
 
         Expr::Return(_) => Err(Diagnostic::InvalidSyntax {
             message: "cannot infer type directly from return expression".to_string(),

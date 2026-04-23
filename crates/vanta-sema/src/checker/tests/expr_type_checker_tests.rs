@@ -1,7 +1,7 @@
 use crate::{TypeContext, check_return_types, infer_expr_type};
 use vanta_ast::{
-    ClassDecl, Expr, FunctionDecl, Identifier, Param, Program, ReturnExpr, StringLiteral, Type,
-    Visibility,
+    Call, ClassDecl, Expr, FunctionDecl, Identifier, Param, Program, ReturnExpr, StringLiteral,
+    Type, Visibility,
 };
 
 #[test]
@@ -110,4 +110,20 @@ fn should_fail_when_returned_param_type_does_not_match_method_type() {
         result.unwrap_err().to_string(),
         "invalid syntax: method 'User.greet' returns String but found Int"
     );
+}
+
+#[test]
+fn should_infer_print_call_expression_as_void() {
+    let expr = Expr::Call(Call {
+        callee: "print".to_string(),
+        args: vec![Expr::StringLiteral(StringLiteral {
+            value: "Hello".to_string(),
+        })],
+    });
+
+    let context = TypeContext { params: &[] };
+
+    let result = infer_expr_type(&expr, &context);
+
+    assert_eq!(result.unwrap(), Type::Void);
 }

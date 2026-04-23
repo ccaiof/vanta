@@ -4,6 +4,7 @@ use vanta_lexer::lex;
 #[test]
 fn should_parse_class_with_method() {
     let tokens = lex(r#"
+        pack test
         class User(
             priv val name: String,
             priv val em: String
@@ -35,6 +36,7 @@ fn should_parse_class_with_method() {
 #[test]
 fn should_parse_method_with_parameter() {
     let tokens = lex(r#"
+        pack test
         class User() {
             pub function setName(value: String): Void {
             }

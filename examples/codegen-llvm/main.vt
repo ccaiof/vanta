@@ -1,6 +1,7 @@
+pack main
+
 class App() {
     pub function main(): Void {
-        print("Hello, Vanta!")
-        return
+        print("oi, vida!")
     }
 }

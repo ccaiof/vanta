@@ -4,6 +4,7 @@ use vanta_lexer::lex;
 #[test]
 fn should_parse_class_with_fields() {
     let tokens = lex(r#"
+        pack test
         class User(
             priv val name: String,
             priv mut email: String
@@ -36,6 +37,7 @@ fn should_parse_class_with_fields() {
 #[test]
 fn should_parse_class_with_custom_type_field() {
     let tokens = lex(r#"
+        pack test
         class User(
             priv val profile: Profile
         ) {}
@@ -52,7 +54,7 @@ fn should_parse_class_with_custom_type_field() {
 
 #[test]
 fn should_parse_fields_with_comma() {
-    let tokens = lex("class User(priv val name: String, priv val em: String) {}").unwrap();
+    let tokens = lex("pack test\nclass User(priv val name: String, priv val em: String) {}").unwrap();
 
     let mut parser = Parser::new(tokens);
     let program = parser.parse_program().unwrap();

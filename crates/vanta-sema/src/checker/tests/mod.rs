@@ -5,3 +5,5 @@ mod expr_type_checker_tests;
 mod return_checker_tests;
 mod return_type_checker_tests;
 mod uniqueness_checker_tests;
+mod pack_checker_tests;
+mod import_checker_tests;

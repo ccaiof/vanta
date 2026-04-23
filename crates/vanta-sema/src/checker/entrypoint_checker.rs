@@ -2,6 +2,12 @@ use vanta_ast::{Program, Type, Visibility};
 use vanta_diagnostics::Diagnostic;
 
 pub fn check_entrypoint(program: &Program) -> Result<(), Diagnostic> {
+    if program.pack.name != "main" {
+        return Err(Diagnostic::InvalidSyntax {
+            message: "entrypoint must declare 'pack main'".to_string(),
+        });
+    }
+
     let app_classes: Vec<_> = program
         .classes
         .iter()

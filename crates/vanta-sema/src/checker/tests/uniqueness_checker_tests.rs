@@ -4,6 +4,8 @@ use vanta_ast::{ClassDecl, FunctionDecl, Program, Type, Visibility};
 #[test]
 fn should_fail_when_class_name_is_duplicated() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![
             ClassDecl {
                 name: "User".to_string(),
@@ -30,6 +32,8 @@ fn should_fail_when_class_name_is_duplicated() {
 #[test]
 fn should_fail_when_method_name_is_duplicated() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],

@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+walkdir = "2.5.0"
+vanta-ir = { path = "../vanta-ir" }
+vanta-ast = { path = "../vanta-ast" }
 vanta-lexer = { path = "../vanta-lexer" }
 vanta-parser = { path = "../vanta-parser" }
 vanta-sema = { path = "../vanta-sema" }

@@ -7,6 +7,8 @@ use vanta_ir::{Instruction, IrValue};
 #[test]
 fn should_lower_return_string_literal() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],

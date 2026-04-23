@@ -7,6 +7,8 @@ use crate::check_return_types;
 #[test]
 fn should_accept_string_method_returning_string_literal() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],
@@ -32,6 +34,8 @@ fn should_accept_string_method_returning_string_literal() {
 #[test]
 fn should_fail_when_void_method_returns_string_literal() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -61,6 +65,8 @@ fn should_fail_when_void_method_returns_string_literal() {
 #[test]
 fn should_fail_when_string_method_returns_without_value() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],
@@ -86,6 +92,8 @@ fn should_fail_when_string_method_returns_without_value() {
 #[test]
 fn should_fail_when_string_method_returns_non_string_expression() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],

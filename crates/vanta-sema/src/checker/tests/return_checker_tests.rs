@@ -7,6 +7,8 @@ use crate::{check_return_types, check_returns};
 #[test]
 fn should_accept_void_method_with_empty_return() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -28,6 +30,8 @@ fn should_accept_void_method_with_empty_return() {
 #[test]
 fn should_fail_when_void_method_returns_value() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -57,6 +61,8 @@ fn should_fail_when_void_method_returns_value() {
 #[test]
 fn should_accept_string_method_with_return_value() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],
@@ -82,6 +88,8 @@ fn should_accept_string_method_with_return_value() {
 #[test]
 fn should_fail_when_string_method_has_no_return() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],
@@ -107,6 +115,8 @@ fn should_fail_when_string_method_has_no_return() {
 #[test]
 fn should_fail_when_string_method_returns_without_value() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],
@@ -132,6 +142,8 @@ fn should_fail_when_string_method_returns_without_value() {
 #[test]
 fn should_accept_string_method_returning_self_property() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![vanta_ast::FieldDecl {

@@ -67,6 +67,8 @@ fn should_fail_when_identifier_is_unknown() {
 #[test]
 fn should_accept_string_method_returning_param_identifier() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],
@@ -95,6 +97,8 @@ fn should_accept_string_method_returning_param_identifier() {
 #[test]
 fn should_fail_when_returned_param_type_does_not_match_method_type() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],

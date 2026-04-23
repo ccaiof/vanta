@@ -3,7 +3,7 @@ use vanta_lexer::lex;
 
 #[test]
 fn should_parse_empty_class() {
-    let tokens = lex("class User() {}").unwrap();
+    let tokens = lex("pack test\nclass User() {}").unwrap();
     let mut parser = Parser::new(tokens);
 
     let program = parser.parse_program().unwrap();
@@ -16,7 +16,7 @@ fn should_parse_empty_class() {
 
 #[test]
 fn should_fail_when_class_name_is_missing() {
-    let tokens = lex("class () {}").unwrap();
+    let tokens = lex("pack test\nclass () {}").unwrap();
     let mut parser = Parser::new(tokens);
 
     let result = parser.parse_program();

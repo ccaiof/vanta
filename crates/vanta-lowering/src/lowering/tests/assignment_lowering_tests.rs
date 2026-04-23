@@ -8,6 +8,8 @@ use vanta_ir::{Instruction, IrValue};
 #[test]
 fn should_lower_self_property_assignment() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![],

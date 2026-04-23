@@ -1,3 +1,4 @@
+use vanta_ast::{ImportDecl, PackDecl};
 use vanta_diagnostics::Diagnostic;
 use vanta_lexer::TokenKind;
 
@@ -173,5 +174,35 @@ impl Parser {
         }
 
         Ok(args)
+    }
+
+    pub fn parse_pack(&mut self) -> Result<PackDecl, Diagnostic> {
+        self.expect(TokenKind::Pack)?;
+
+        let name = self.parse_pack_name()?;
+
+        Ok(PackDecl { name })
+    }
+
+    pub fn parse_import(&mut self) -> Result<ImportDecl, Diagnostic> {
+        self.expect(TokenKind::Import)?;
+
+        let name = self.parse_pack_name()?;
+
+        Ok(ImportDecl { name })
+    }
+
+    pub fn parse_pack_name(&mut self) -> Result<String, Diagnostic> {
+        let mut name = self.expect_identifier()?;
+
+        while self.check(&TokenKind::Dot) {
+            self.advance(); // consome o '.'
+
+            let next = self.expect_identifier()?;
+            name.push('.');
+            name.push_str(&next);
+        }
+
+        Ok(name)
     }
 }

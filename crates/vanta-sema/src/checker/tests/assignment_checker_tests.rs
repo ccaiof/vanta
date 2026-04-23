@@ -7,6 +7,8 @@ use vanta_ast::{
 #[test]
 fn should_accept_assignment_to_mut_string_field() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![FieldDecl {
@@ -43,6 +45,8 @@ fn should_accept_assignment_to_mut_string_field() {
 #[test]
 fn should_fail_when_assigning_to_immutable_field() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![FieldDecl {
@@ -83,6 +87,8 @@ fn should_fail_when_assigning_to_immutable_field() {
 #[test]
 fn should_fail_when_assignment_value_type_does_not_match_field_type() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![FieldDecl {
@@ -123,6 +129,8 @@ fn should_fail_when_assignment_value_type_does_not_match_field_type() {
 #[test]
 fn should_fail_when_assignment_target_is_not_self_property() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "User".to_string(),
             fields: vec![FieldDecl {

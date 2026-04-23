@@ -4,6 +4,7 @@ use vanta_lexer::lex;
 #[test]
 fn should_parse_method_body_with_assignment() {
     let tokens = lex(r#"
+        pack test
         class User() {
             pub function test(): Void {
                 user.email = "abc"
@@ -28,6 +29,7 @@ fn should_parse_method_body_with_assignment() {
 #[test]
 fn should_parse_property_access() {
     let tokens = lex(r#"
+        pack test
         class User() {
             pub function test(): Void {
                 user.email
@@ -50,6 +52,7 @@ fn should_parse_property_access() {
 #[test]
 fn should_parse_return_without_value() {
     let tokens = lex(r#"
+        pack test
         class App() {
             pub function main(): Void {
                 return
@@ -74,6 +77,7 @@ fn should_parse_return_without_value() {
 #[test]
 fn should_parse_return_with_string_value() {
     let tokens = lex(r#"
+        pack test
         class App() {
             pub function main(): Void {
                 return "Hello"
@@ -98,6 +102,7 @@ fn should_parse_return_with_string_value() {
 #[test]
 fn should_parse_function_call_expression() {
     let tokens = lex(r#"
+        pack test
         class App() {
             pub function main(): Void {
                 print("Hello, Vanta!")
@@ -123,6 +128,7 @@ fn should_parse_function_call_expression() {
 #[test]
 fn should_parse_function_call_with_multiple_arguments() {
     let tokens = lex(r#"
+        pack test
         class App() {
             pub function main(): Void {
                 log("a", "b")

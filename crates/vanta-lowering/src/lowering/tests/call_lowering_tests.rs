@@ -5,6 +5,8 @@ use crate::Lowerer;
 #[test]
 fn should_lower_call_expression() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],

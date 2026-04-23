@@ -5,6 +5,8 @@ use crate::check_entrypoint;
 #[test]
 fn should_accept_valid_app_main_entrypoint() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -25,7 +27,7 @@ fn should_accept_valid_app_main_entrypoint() {
 
 #[test]
 fn should_fail_when_app_class_does_not_exist() {
-    let program = Program { classes: vec![] };
+    let program = Program { pack: vanta_ast::PackDecl { name: "test".to_string() }, imports: vec![], classes: vec![] };
 
     let result = check_entrypoint(&program);
 
@@ -39,6 +41,8 @@ fn should_fail_when_app_class_does_not_exist() {
 #[test]
 fn should_fail_when_main_method_does_not_exist() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -58,6 +62,8 @@ fn should_fail_when_main_method_does_not_exist() {
 #[test]
 fn should_fail_when_main_is_not_public() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -83,6 +89,8 @@ fn should_fail_when_main_is_not_public() {
 #[test]
 fn should_fail_when_main_has_parameters() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -111,6 +119,8 @@ fn should_fail_when_main_has_parameters() {
 #[test]
 fn should_fail_when_main_does_not_return_void() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],
@@ -136,6 +146,8 @@ fn should_fail_when_main_does_not_return_void() {
 #[test]
 fn should_fail_when_app_class_is_duplicated() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![
             ClassDecl {
                 name: "App".to_string(),
@@ -162,6 +174,8 @@ fn should_fail_when_app_class_is_duplicated() {
 #[test]
 fn should_fail_when_main_method_is_duplicated() {
     let program = Program {
+        pack: vanta_ast::PackDecl { name: "test".to_string() },
+        imports: vec![],
         classes: vec![ClassDecl {
             name: "App".to_string(),
             fields: vec![],

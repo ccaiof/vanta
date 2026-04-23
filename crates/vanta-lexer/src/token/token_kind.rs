@@ -1,6 +1,8 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum TokenKind {
     Class,
+    Pack,
+    Import,
     Pub,
     Priv,
     Val,

@@ -1,0 +1,5 @@
+class App() {
+    pub function main(): Void {
+        "Hello, Vanta!"
+    }
+}

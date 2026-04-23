@@ -64,6 +64,10 @@ version = "0.1.0"
 [[package]]
 name = "vanta-cli"
 version = "0.1.0"
+dependencies = [
+ "vanta-lexer",
+ "vanta-parser",
+]
 
 [[package]]
 name = "vanta-codegen-llvm"

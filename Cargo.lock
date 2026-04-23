@@ -86,6 +86,11 @@ dependencies = [
 [[package]]
 name = "vanta-parser"
 version = "0.1.0"
+dependencies = [
+ "vanta-ast",
+ "vanta-diagnostics",
+ "vanta-lexer",
+]
 
 [[package]]
 name = "vanta-sema"

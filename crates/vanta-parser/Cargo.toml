@@ -1,6 +1,11 @@
 [package]
 name = "vanta-parser"
-version = "0.1.0"
-edition = "2024"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
 
 [dependencies]
+vanta-ast = { path = "../vanta-ast" }
+vanta-lexer = { path = "../vanta-lexer" }
+vanta-diagnostics = { path = "../vanta-diagnostics" }

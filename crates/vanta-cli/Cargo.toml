@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-vanta-parser = { path = "../vanta-parser" }
 vanta-lexer = { path = "../vanta-lexer" }
+vanta-parser = { path = "../vanta-parser" }
 vanta-sema = { path = "../vanta-sema" }
+vanta-lowering = { path = "../vanta-lowering" }

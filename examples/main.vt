@@ -1,5 +1,12 @@
 class App() {
     pub function main(): Void {
-        "Hello, Vanta!"
+        print("Hello, Vanta")
+        return
+    }
+}
+
+class App() {
+    pub function main(): Void {
+        return
     }
 }

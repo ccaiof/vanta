@@ -132,3 +132,63 @@ fn should_fail_when_main_does_not_return_void() {
         "invalid syntax: entrypoint method 'App.main' must return Void"
     );
 }
+
+#[test]
+fn should_fail_when_app_class_is_duplicated() {
+    let program = Program {
+        classes: vec![
+            ClassDecl {
+                name: "App".to_string(),
+                fields: vec![],
+                methods: vec![],
+            },
+            ClassDecl {
+                name: "App".to_string(),
+                fields: vec![],
+                methods: vec![],
+            },
+        ],
+    };
+
+    let result = check_entrypoint(&program);
+
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "invalid syntax: entrypoint class 'App' must be unique"
+    );
+}
+
+#[test]
+fn should_fail_when_main_method_is_duplicated() {
+    let program = Program {
+        classes: vec![ClassDecl {
+            name: "App".to_string(),
+            fields: vec![],
+            methods: vec![
+                FunctionDecl {
+                    visibility: Visibility::Pub,
+                    name: "main".to_string(),
+                    params: vec![],
+                    return_type: Some(Type::Void),
+                    body: vec![],
+                },
+                FunctionDecl {
+                    visibility: Visibility::Pub,
+                    name: "main".to_string(),
+                    params: vec![],
+                    return_type: Some(Type::Void),
+                    body: vec![],
+                },
+            ],
+        }],
+    };
+
+    let result = check_entrypoint(&program);
+
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "invalid syntax: entrypoint method 'App.main' must be unique"
+    );
+}

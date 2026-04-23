@@ -1,6 +1,6 @@
 use vanta_ast::FunctionDecl;
 use vanta_diagnostics::Diagnostic;
-use vanta_ir::IrFunction;
+use vanta_ir::{Instruction, IrFunction};
 
 use crate::lowering::lowerer::Lowerer;
 
@@ -14,6 +14,10 @@ impl Lowerer {
 
         for expr in &method.body {
             self.lower_expr(expr, &mut instructions)?;
+        }
+
+        if instructions.is_empty() || !matches!(instructions.last(), Some(Instruction::Return(_))) {
+            instructions.push(Instruction::Return(None));
         }
 
         Ok(IrFunction {

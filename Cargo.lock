@@ -66,6 +66,7 @@ name = "vanta-cli"
 version = "0.1.0"
 dependencies = [
  "vanta-lexer",
+ "vanta-lowering",
  "vanta-parser",
  "vanta-sema",
 ]

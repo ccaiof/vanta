@@ -183,3 +183,51 @@ fn should_parse_property_access() {
         _ => panic!("expected property access"),
     }
 }
+
+#[test]
+fn should_parse_return_without_value() {
+    let tokens = lex(r#"
+        class App() {
+            pub function main(): Void {
+                return
+            }
+        }
+        "#)
+    .unwrap();
+
+    let mut parser = Parser::new(tokens);
+    let program = parser.parse_program().unwrap();
+
+    let expr = &program.classes[0].methods[0].body[0];
+
+    match expr {
+        vanta_ast::Expr::Return(ret) => {
+            assert!(ret.value.is_none());
+        }
+        _ => panic!("expected return expression"),
+    }
+}
+
+#[test]
+fn should_parse_return_with_string_value() {
+    let tokens = lex(r#"
+        class App() {
+            pub function main(): Void {
+                return "Hello"
+            }
+        }
+        "#)
+    .unwrap();
+
+    let mut parser = Parser::new(tokens);
+    let program = parser.parse_program().unwrap();
+
+    let expr = &program.classes[0].methods[0].body[0];
+
+    match expr {
+        vanta_ast::Expr::Return(ret) => {
+            assert!(ret.value.is_some());
+        }
+        _ => panic!("expected return expression"),
+    }
+}

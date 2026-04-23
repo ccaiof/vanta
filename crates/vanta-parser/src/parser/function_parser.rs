@@ -78,9 +78,24 @@ impl Parser {
     }
 
     fn parse_expression(&mut self) -> Result<vanta_ast::Expr, Diagnostic> {
+        if self.check(&TokenKind::Return) {
+            self.advance();
+
+            if self.check(&TokenKind::RBrace) {
+                return Ok(vanta_ast::Expr::Return(vanta_ast::ReturnExpr {
+                    value: None,
+                }));
+            }
+
+            let value = self.parse_expression()?;
+
+            return Ok(vanta_ast::Expr::Return(vanta_ast::ReturnExpr {
+                value: Some(Box::new(value)),
+            }));
+        }
+
         let mut expr = self.parse_primary()?;
 
-        // property access: user.email
         while self.check(&TokenKind::Dot) {
             self.advance();
             let property = self.expect_identifier()?;
@@ -91,7 +106,6 @@ impl Parser {
             });
         }
 
-        // assignment: user.email = "abc"
         if self.check(&TokenKind::Equal) {
             self.advance();
             let value = self.parse_expression()?;

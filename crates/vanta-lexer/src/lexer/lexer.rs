@@ -113,6 +113,7 @@ impl<'a> Lexer<'a> {
             "String" => TokenKind::StringType,
             "Int" => TokenKind::IntType,
             "Void" => TokenKind::VoidType,
+            "return" => TokenKind::Return,
             _ => TokenKind::Identifier(value),
         };
 

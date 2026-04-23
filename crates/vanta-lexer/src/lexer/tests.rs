@@ -36,3 +36,11 @@ fn should_return_error_for_unterminated_string() {
 
     assert!(result.is_err());
 }
+
+#[test]
+fn should_lex_return_keyword() {
+    let tokens = lex("return").unwrap();
+
+    assert_eq!(tokens[0].kind, TokenKind::Return);
+    assert_eq!(tokens[1].kind, TokenKind::Eof);
+}

@@ -25,4 +25,6 @@ pub enum TokenKind {
     Equal,
 
     Eof,
+
+    Return,
 }

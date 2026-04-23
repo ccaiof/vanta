@@ -11,6 +11,8 @@ pub fn check_return_types(program: &Program) -> Result<(), Diagnostic> {
             };
 
             let context = TypeContext {
+                class_name: &class.name,
+                fields: &class.fields,
                 params: &method.params,
             };
 

@@ -1,7 +1,7 @@
 use crate::{TypeContext, check_return_types, infer_expr_type};
 use vanta_ast::{
-    Call, ClassDecl, Expr, FunctionDecl, Identifier, Param, Program, ReturnExpr, StringLiteral,
-    Type, Visibility,
+    Call, ClassDecl, Expr, FieldDecl, FunctionDecl, Identifier, Mutability, Param, Program,
+    PropertyAccess, ReturnExpr, StringLiteral, Type, Visibility,
 };
 
 #[test]
@@ -10,7 +10,11 @@ fn should_infer_string_literal_type() {
         value: "Hello".to_string(),
     });
 
-    let context = TypeContext { params: &[] };
+    let context = TypeContext {
+        class_name: "App",
+        fields: &[],
+        params: &[],
+    };
 
     let result = infer_expr_type(&expr, &context);
 
@@ -28,7 +32,11 @@ fn should_infer_identifier_type_from_method_params() {
         ty: Type::String,
     }];
 
-    let context = TypeContext { params: &params };
+    let context = TypeContext {
+        class_name: "App",
+        fields: &[],
+        params: &params,
+    };
 
     let result = infer_expr_type(&expr, &context);
 
@@ -41,7 +49,11 @@ fn should_fail_when_identifier_is_unknown() {
         name: "name".to_string(),
     });
 
-    let context = TypeContext { params: &[] };
+    let context = TypeContext {
+        class_name: "App",
+        fields: &[],
+        params: &[],
+    };
 
     let result = infer_expr_type(&expr, &context);
 
@@ -121,9 +133,95 @@ fn should_infer_print_call_expression_as_void() {
         })],
     });
 
-    let context = TypeContext { params: &[] };
+    let context = TypeContext {
+        class_name: "App",
+        fields: &[],
+        params: &[],
+    };
 
     let result = infer_expr_type(&expr, &context);
 
     assert_eq!(result.unwrap(), Type::Void);
+}
+
+#[test]
+fn should_infer_self_property_access_type() {
+    let expr = Expr::PropertyAccess(PropertyAccess {
+        object: Box::new(Expr::Identifier(Identifier {
+            name: "self".to_string(),
+        })),
+        property: "name".to_string(),
+    });
+
+    let fields = vec![FieldDecl {
+        visibility: Visibility::Priv,
+        mutability: Mutability::Val,
+        name: "name".to_string(),
+        ty: Type::String,
+    }];
+
+    let context = TypeContext {
+        class_name: "User",
+        fields: &fields,
+        params: &[],
+    };
+
+    let result = infer_expr_type(&expr, &context);
+
+    assert_eq!(result.unwrap(), Type::String);
+}
+
+#[test]
+fn should_fail_when_self_property_does_not_exist() {
+    let expr = Expr::PropertyAccess(PropertyAccess {
+        object: Box::new(Expr::Identifier(Identifier {
+            name: "self".to_string(),
+        })),
+        property: "email".to_string(),
+    });
+
+    let fields = vec![FieldDecl {
+        visibility: Visibility::Priv,
+        mutability: Mutability::Val,
+        name: "name".to_string(),
+        ty: Type::String,
+    }];
+
+    let context = TypeContext {
+        class_name: "User",
+        fields: &fields,
+        params: &[],
+    };
+
+    let result = infer_expr_type(&expr, &context);
+
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "invalid syntax: property 'email' was not found in class 'User'"
+    );
+}
+
+#[test]
+fn should_fail_when_property_access_is_not_self_property() {
+    let expr = Expr::PropertyAccess(PropertyAccess {
+        object: Box::new(Expr::Identifier(Identifier {
+            name: "user".to_string(),
+        })),
+        property: "name".to_string(),
+    });
+
+    let context = TypeContext {
+        class_name: "User",
+        fields: &[],
+        params: &[],
+    };
+
+    let result = infer_expr_type(&expr, &context);
+
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "invalid syntax: type inference for property access is only implemented for self.property"
+    );
 }
